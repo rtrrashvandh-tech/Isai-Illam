@@ -77,6 +77,7 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     setFile(selectedFile);
   };
 
+  // 🔥 Updated onSubmit with Netlify Serverless Endpoint
   const onSubmit = async (data: RegistrationFormData) => {
     if (!file) {
       setFileError("Please upload your payment screenshot");
@@ -86,7 +87,6 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
     setIsSubmitting(true);
 
     try {
-      // Convert file to base64
       const fileBase64 = await new Promise<string>((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
@@ -95,13 +95,16 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
       });
 
       const formData = {
-        ...data,
+        fullName: data.fullName,
+        email: data.email,
+        mobileNumber: data.mobileNumber,
+        clubName: data.clubName,
         paymentScreenshot: fileBase64,
-        event: "Isai Illam", // event name
-        department: data.clubName, // map clubName to department
+        event: "Isai Illam",
       };
 
-      const response = await fetch("http://localhost:5000/api/register", {
+      // 🎯 Netlify Serverless Function Endpoint
+      const response = await fetch("/.netlify/functions/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -109,15 +112,15 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
         body: JSON.stringify(formData),
       });
 
-      const result = await response.json();
-
       if (!response.ok) {
-        throw new Error(result.message || "Registration failed");
+        const error = await response.json();
+        throw new Error(error.message || "Registration failed");
       }
 
       toast({
         title: "Registration Successful!",
-        description: "Your e-pass has been sent to your email. Please check your inbox.",
+        description:
+          "Your e-pass has been sent to your email. Please check your inbox.",
       });
 
       onSuccess();
@@ -126,9 +129,7 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
       toast({
         title: "Registration Failed",
         description:
-          error instanceof Error
-            ? error.message
-            : "An error occurred during registration",
+          error instanceof Error ? error.message : "An error occurred during registration",
         variant: "destructive",
       });
     } finally {
@@ -174,10 +175,7 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
       {/* Mobile Number */}
       <div className="space-y-2">
-        <Label
-          htmlFor="mobileNumber"
-          className="text-foreground flex items-center gap-2"
-        >
+        <Label htmlFor="mobileNumber" className="text-foreground flex items-center gap-2">
           <Phone className="w-4 h-4 text-primary" />
           Mobile Number
         </Label>
@@ -213,10 +211,7 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
 
       {/* Payment Screenshot */}
       <div className="space-y-2">
-        <Label
-          htmlFor="paymentScreenshot"
-          className="text-foreground flex items-center gap-2"
-        >
+        <Label htmlFor="paymentScreenshot" className="text-foreground flex items-center gap-2">
           <Upload className="w-4 h-4 text-primary" />
           Payment Screenshot
         </Label>
@@ -256,7 +251,7 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
         {fileError && <p className="text-destructive text-sm">{fileError}</p>}
       </div>
 
-      {/* Submit Button */}
+      {/* Submit */}
       <Button
         type="submit"
         disabled={isSubmitting}

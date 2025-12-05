@@ -1,12 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const morgan = require('morgan');
+const morgan = require('express');
 const path = require('path');
 const registrationRoutes = require('./routes/registrationRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
@@ -18,17 +18,10 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // API Routes
 app.use('/api/register', registrationRoutes);
 
+// Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
-  const distPath = path.join(__dirname, 'dist');
-  
-  console.log('Serving static files from:', distPath);
-  console.log('Directory contents:', require('fs').readdirSync(__dirname));
-  
-  // Create dist directory if it doesn't exist
-  if (!require('fs').existsSync(distPath)) {
-    require('fs').mkdirSync(distPath, { recursive: true });
-  }
+  const distPath = path.join(__dirname, '..', 'dist');
   
   app.use(express.static(distPath));
   app.get('*', (req, res) => {
@@ -42,6 +35,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ status: 'error', message: 'Something went wrong!' });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });

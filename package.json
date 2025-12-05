@@ -3,16 +3,17 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-"scripts": {
-  "build": "vite build --outDir dist && mkdir -p backend/dist && cp -r dist/* backend/dist/",
-  "preview": "vite preview",
-  "dev": "vite",
-  "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
-},
+  "scripts": {
+    "build": "vite build --outDir dist && mkdir -p backend/dist && cp -r dist/* backend/dist/",
+    "preview": "vite preview",
+    "dev": "vite",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+  },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
     "@hookform/resolvers": "^3.10.0",
+    "@netlify/functions": "^5.1.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
     "@radix-ui/react-aspect-ratio": "^1.1.7",
@@ -46,6 +47,9 @@
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
     "embla-carousel-react": "^8.6.0",
+    "express": "^5.2.1",
+    "express-http-proxy": "^2.1.2",
+    "http-proxy-middleware": "^3.0.5",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
     "next-themes": "^0.3.0",
