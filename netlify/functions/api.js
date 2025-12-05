@@ -1,6 +1,6 @@
-const { handler } = require('@netlify/functions');
-const express = require('express');
+﻿const express = require('express');
 const serverless = require('serverless-http');
+
 const app = express();
 app.use(express.json());
 
@@ -16,6 +16,5 @@ app.use((err, req, res, next) => {
 
 const serverlessHandler = serverless(app);
 
-exports.handler = async (event, context) => {
-  return await serverlessHandler(event, context);
-};
+// Export the handler
+exports.handler = serverlessHandler;
