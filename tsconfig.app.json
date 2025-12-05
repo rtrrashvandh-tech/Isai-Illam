@@ -1,12 +1,4 @@
 ﻿{
-  "extends": "@tsconfig/vite-react/tsconfig.json",
-  "compilerOptions": {
-    "types": ["node", "estree", "json-schema"],
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["src", "netlify/functions"],
-  "exclude": ["node_modules"]
+  "extends": "./tsconfig.json",
+  "include": ["src/**/*", "netlify/functions/**/*"]
 }
