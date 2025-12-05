@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -16,25 +15,12 @@ app.use(morgan('dev'));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Routes
+// API Routes
 app.use('/api/register', registrationRoutes);
 
 // Serve static files in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../build')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-  });
-}
-// Add this near the top of your server.js, after your other requires
-const path = require('path');
-
-// Add this after your API routes, but before your error handling middleware
-if (process.env.NODE_ENV === 'production') {
-  // Serve static files from the React app
   app.use(express.static(path.join(__dirname, '../dist')));
-
-  // Handle React routing, return all requests to React app
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../dist', 'index.html'));
   });
