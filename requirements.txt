@@ -1,0 +1,12 @@
+﻿# Project Dependencies
+express=^5.2.1
+serverless-http=^4.0.0
+uuid=^13.0.0
+pdf-lib=^1.17.1
+xlsx=^0.18.5
+nodemailer=^6.9.1
+
+# Development Dependencies (if needed)
+# @types/express=^4.17.21
+# @types/uuid=^9.0.7
+# @types/nodemailer=^6.4.14
