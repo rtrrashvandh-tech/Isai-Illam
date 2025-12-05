@@ -24,23 +24,62 @@ const saveBase64Image = (base64String, participantId) => {
       extension = 'pdf';
     }
     
-    // Always use local uploads directory (relative to project root)
-    // For Netlify deployment, this will be in the function's working directory
-    const projectRoot = path.resolve(__dirname, '../../');
-    const uploadsDir = path.resolve(projectRoot, 'uploads');
+    // Determine the correct uploads directory
+    // Try multiple paths to find the project root
+    let uploadsDir;
+    const possibleRoots = [
+      path.resolve(__dirname, '../../'), // From backend/controllers -> project root
+      path.resolve(process.cwd()), // Current working directory
+      path.resolve(process.cwd(), '..'), // One level up
+    ];
     
-    console.log('Upload directory:', uploadsDir);
+    // Find the first directory that exists and has a package.json
+    let projectRoot = null;
+    for (const root of possibleRoots) {
+      const packageJsonPath = path.join(root, 'package.json');
+      if (fs.existsSync(packageJsonPath)) {
+        projectRoot = root;
+        break;
+      }
+    }
+    
+    // Fallback to current working directory
+    if (!projectRoot) {
+      projectRoot = process.cwd();
+    }
+    
+    uploadsDir = path.resolve(projectRoot, 'uploads');
+    
+    console.log('📁 __dirname:', __dirname);
+    console.log('📁 process.cwd():', process.cwd());
+    console.log('📁 Project root:', projectRoot);
+    console.log('📁 Upload directory:', uploadsDir);
     
     // Ensure uploads directory exists
     if (!fs.existsSync(uploadsDir)) {
       fs.mkdirSync(uploadsDir, { recursive: true });
-      console.log('Created directory:', uploadsDir);
+      console.log('✅ Created directory:', uploadsDir);
+    } else {
+      console.log('✅ Directory already exists:', uploadsDir);
     }
     
     // Save file
     const filename = `payment-${participantId}-${Date.now()}.${extension}`;
     const filepath = path.join(uploadsDir, filename);
+    
+    console.log('💾 Saving file to:', filepath);
+    console.log('💾 Buffer size:', buffer.length, 'bytes');
+    
     fs.writeFileSync(filepath, buffer);
+    
+    // Verify file was written
+    if (fs.existsSync(filepath)) {
+      const stats = fs.statSync(filepath);
+      console.log('✅ File saved successfully! Size:', stats.size, 'bytes');
+    } else {
+      console.error('❌ ERROR: File was not created!');
+      throw new Error('File write operation failed');
+    }
     
     return filepath;
   } catch (error) {
@@ -75,8 +114,19 @@ exports.registerParticipant = async (req, res) => {
     // Save base64 image to file
     let savedFilePath = null;
     try {
+      console.log('💾 Attempting to save payment screenshot...');
       savedFilePath = saveBase64Image(paymentScreenshot, participantId);
+      console.log('✅ Screenshot saved successfully to:', savedFilePath);
+      
+      // Verify file was actually created
+      if (fs.existsSync(savedFilePath)) {
+        const stats = fs.statSync(savedFilePath);
+        console.log('✅ File verified - Size:', stats.size, 'bytes');
+      } else {
+        console.error('❌ ERROR: File was not created at:', savedFilePath);
+      }
     } catch (error) {
+      console.error('❌ Error saving screenshot:', error);
       return res.status(400).json({
         status: 'error',
         message: error.message || 'Error processing payment screenshot'
