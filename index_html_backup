@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISAI ILLAM – A Musical Night | Rotaract Event Registration</title>
+    <meta name="description" content="Register for ISAI ILLAM, an enchanting musical night hosted by Rotaract. Experience the magic of live music and cultural celebration." />
+    <meta name="author" content="Rotaract Club" />
+    <meta name="keywords" content="ISAI ILLAM, Rotaract, musical event, cultural night, music festival, registration" />
+
+    <meta property="og:title" content="ISAI ILLAM – A Musical Night | Rotaract Event" />
+    <meta property="og:description" content="Register for ISAI ILLAM, an enchanting musical night hosted by Rotaract. Experience the magic of live music." />
+    <meta property="og:type" content="website" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="ISAI ILLAM – A Musical Night" />
+    <meta name="twitter:description" content="Register for ISAI ELLAM, an enchanting musical night hosted by Rotaract Club of KPRCAS." />
+    
+    <link rel="canonical" href="/" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
