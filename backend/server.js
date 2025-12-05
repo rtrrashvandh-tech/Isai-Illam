@@ -26,6 +26,19 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
   });
 }
+// Add this near the top of your server.js, after your other requires
+const path = require('path');
+
+// Add this after your API routes, but before your error handling middleware
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React app
+  app.use(express.static(path.join(__dirname, '../dist')));
+
+  // Handle React routing, return all requests to React app
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../dist', 'index.html'));
+  });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
