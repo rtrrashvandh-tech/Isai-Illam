@@ -24,14 +24,12 @@ const saveBase64Image = (base64String, participantId) => {
       extension = 'pdf';
     }
     
-    // Use OS temp directory for serverless environments (Netlify), otherwise use uploads directory
-    const isServerless = process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME;
-    const uploadsDir = isServerless 
-      ? os.tmpdir() // Use OS temp directory (works on Windows, Linux, Mac)
-      : path.resolve(process.cwd(), 'uploads');
+    // Always use local uploads directory (relative to project root)
+    // For Netlify deployment, this will be in the function's working directory
+    const projectRoot = path.resolve(__dirname, '../../');
+    const uploadsDir = path.resolve(projectRoot, 'uploads');
     
     console.log('Upload directory:', uploadsDir);
-    console.log('Is serverless:', isServerless);
     
     // Ensure uploads directory exists
     if (!fs.existsSync(uploadsDir)) {
