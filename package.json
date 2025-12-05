@@ -4,13 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "start": "vite",
-    "heroku-postbuild": "npm install && npm run build"
-  },
+  "build": "vite build --outDir ../dist",
+  "preview": "vite preview",
+  "dev": "vite",
+  "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+}
+,
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",
     "@fontsource/playfair-display": "^5.2.8",
