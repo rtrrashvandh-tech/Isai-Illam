@@ -18,12 +18,17 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // API Routes
 app.use('/api/register', registrationRoutes);
 
-// Serve static files in production
 if (process.env.NODE_ENV === 'production') {
   const __dirname = path.resolve();
-  const distPath = path.join(__dirname, '..', 'dist');
+  const distPath = path.join(__dirname, 'dist');
   
-  console.log('Serving static files from:', distPath); // Debug log
+  console.log('Serving static files from:', distPath);
+  console.log('Directory contents:', require('fs').readdirSync(__dirname));
+  
+  // Create dist directory if it doesn't exist
+  if (!require('fs').existsSync(distPath)) {
+    require('fs').mkdirSync(distPath, { recursive: true });
+  }
   
   app.use(express.static(distPath));
   app.get('*', (req, res) => {
