@@ -104,7 +104,8 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
       };
 
       // 🎯 Netlify Serverless Function Endpoint
-      const response = await fetch("/.netlify/functions/api/register", {
+      // Using /api/register which will be redirected to /.netlify/functions/api/register
+      const response = await fetch("/api/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -113,9 +114,24 @@ const RegistrationForm = ({ onSuccess }: RegistrationFormProps) => {
       });
 
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Registration failed");
+        let errorMessage = "Registration failed";
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch (e) {
+          // If response is not JSON, try to get text
+          try {
+            const text = await response.text();
+            errorMessage = text || errorMessage;
+          } catch (textError) {
+            errorMessage = `Registration failed with status ${response.status}`;
+          }
+        }
+        throw new Error(errorMessage);
       }
+
+      // Parse successful response
+      const result = await response.json();
 
       toast({
         title: "Registration Successful!",

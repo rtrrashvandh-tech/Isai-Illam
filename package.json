@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "start": "netlify dev"
+    "start": "npx netlify-cli dev",
+    "netlify:dev": "npx netlify-cli dev"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.2.8",
@@ -91,6 +92,7 @@
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
     "lovable-tagger": "^1.1.11",
+    "netlify-cli": "^17.0.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
