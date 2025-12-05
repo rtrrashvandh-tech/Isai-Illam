@@ -1,0 +1,173 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 8%;
+    --foreground: 45 100% 96%;
+
+    --card: 222 40% 12%;
+    --card-foreground: 45 100% 96%;
+
+    --popover: 222 40% 12%;
+    --popover-foreground: 45 100% 96%;
+
+    --primary: 38 92% 55%;
+    --primary-foreground: 222 47% 8%;
+
+    --secondary: 222 35% 18%;
+    --secondary-foreground: 45 100% 96%;
+
+    --muted: 222 30% 20%;
+    --muted-foreground: 220 20% 65%;
+
+    --accent: 15 85% 60%;
+    --accent-foreground: 45 100% 96%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 222 30% 25%;
+    --input: 222 30% 20%;
+    --ring: 38 92% 55%;
+
+    --radius: 0.75rem;
+
+    /* Custom design tokens */
+    --gold: 38 92% 55%;
+    --gold-light: 45 100% 70%;
+    --midnight: 222 47% 8%;
+    --midnight-light: 222 40% 15%;
+    --coral: 15 85% 60%;
+    
+    /* Gradients */
+    --gradient-gold: linear-gradient(135deg, hsl(38 92% 55%) 0%, hsl(45 100% 70%) 100%);
+    --gradient-midnight: linear-gradient(180deg, hsl(222 47% 8%) 0%, hsl(222 40% 15%) 100%);
+    --gradient-hero: radial-gradient(ellipse at top, hsl(222 40% 18%) 0%, hsl(222 47% 8%) 70%);
+    
+    /* Shadows */
+    --shadow-gold: 0 4px 30px hsl(38 92% 55% / 0.3);
+    --shadow-card: 0 8px 40px hsl(222 47% 5% / 0.5);
+
+    --sidebar-background: 222 47% 8%;
+    --sidebar-foreground: 45 100% 96%;
+    --sidebar-primary: 38 92% 55%;
+    --sidebar-primary-foreground: 222 47% 8%;
+    --sidebar-accent: 222 35% 18%;
+    --sidebar-accent-foreground: 45 100% 96%;
+    --sidebar-border: 222 30% 25%;
+    --sidebar-ring: 38 92% 55%;
+  }
+
+  .dark {
+    --background: 222 47% 8%;
+    --foreground: 45 100% 96%;
+    --card: 222 40% 12%;
+    --card-foreground: 45 100% 96%;
+    --popover: 222 40% 12%;
+    --popover-foreground: 45 100% 96%;
+    --primary: 38 92% 55%;
+    --primary-foreground: 222 47% 8%;
+    --secondary: 222 35% 18%;
+    --secondary-foreground: 45 100% 96%;
+    --muted: 222 30% 20%;
+    --muted-foreground: 220 20% 65%;
+    --accent: 15 85% 60%;
+    --accent-foreground: 45 100% 96%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 222 30% 25%;
+    --input: 222 30% 20%;
+    --ring: 38 92% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-sans {
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, hsl(38 92% 55%) 0%, hsl(45 100% 70%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-gradient-hero {
+    background: radial-gradient(ellipse at top, hsl(222 40% 18%) 0%, hsl(222 47% 8%) 70%);
+  }
+
+  .shadow-gold {
+    box-shadow: 0 4px 30px hsl(38 92% 55% / 0.3);
+  }
+
+  .shadow-card {
+    box-shadow: 0 8px 40px hsl(222 47% 5% / 0.5);
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float 6s ease-in-out 2s infinite;
+  }
+
+  .animate-pulse-gold {
+    animation: pulse-gold 3s ease-in-out infinite;
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-gold {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
